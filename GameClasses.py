@@ -2,14 +2,15 @@
 import pygame as pg
 from random import randrange
 from Constants import *
+from GameFunction import load_images
 
 
 # Класс игрока на основе класса Sprite библиотеки pygame
 class Player(pg.sprite.Sprite):
     def __init__(self):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((50, 40))
-        self.image.fill(GREEN)
+        super().__init__()
+        self.image = pg.transform.scale(load_images()[1], (48, 48))
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.centerx = SCREEN_WIDTH / 2
         self.rect.bottom = SCREEN_HEIGHT - 10
@@ -29,10 +30,15 @@ class Player(pg.sprite.Sprite):
             self.speed_y = 8
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
+        # Ограничиваем передвижения персонажа внутри игрового поля
         if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_HEIGHT
+            self.rect.right = SCREEN_WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+        if self.rect.bottom > SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
+        if self.rect.top < 0:
+            self.rect.top = 0
 
     def player_shooter(self):
         return Bullet(self.rect.centerx, self.rect.top)
@@ -41,9 +47,9 @@ class Player(pg.sprite.Sprite):
 # Класс врага, в нашем случае зомби на основе класса Sprite библиотеки pygame
 class Zombie(pg.sprite.Sprite):
     def __init__(self):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((30, 40))
-        self.image.fill(RED)
+        super().__init__()
+        self.image = pg.transform.scale(load_images()[2], (32, 32))
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
         self.rect.y = randrange(-120, -60)
@@ -61,9 +67,9 @@ class Zombie(pg.sprite.Sprite):
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((10, 10))
-        self.image.fill(YELLOW)
+        super().__init__()
+        self.image = pg.transform.scale(load_images()[3], (5, 8))
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y

@@ -1,9 +1,11 @@
 from random import randrange
 
+from GameFunction import load_images, text_draw
+
 import pygame as pg
 from Constants import *
 
-from GameClasses import Player, Zombie, Bullet
+from GameClasses import Player, Zombie
 
 
 def main():
@@ -13,6 +15,8 @@ def main():
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption("Zombie Attack")
     clock = pg.time.Clock()
+    # Загрузка игровой графики
+    background_rect = load_images()[0].get_rect()
 
     all_sprites = pg.sprite.Group()
     zombies = pg.sprite.Group()
@@ -23,6 +27,9 @@ def main():
         zombie = Zombie()
         all_sprites.add(zombie)
         zombies.add(zombie)
+
+    # Cчетчик очков
+    score = 0
 
     # Основной игровой цикл
     running = True
@@ -37,6 +44,7 @@ def main():
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     bullet = player.player_shooter()
+
                     all_sprites.add(bullet)
                     bullets.add(bullet)
 
@@ -46,20 +54,26 @@ def main():
         # проверяем на столкновения Игрока и зомби
         collisions = pg.sprite.spritecollide(player, zombies, False)
         if collisions:
-            running = False
+            # running = False
+            print('*')
 
         # проверяем на столкновения сняряда и зомби
         collisions = pg.sprite.groupcollide(zombies, bullets, True, True)
         for _ in collisions:
+            score += 1
             zombie = Zombie()
             all_sprites.add(zombie)
             zombies.add(zombie)
+            print(score)
 
         # Отрисовка объектов на экране
         screen.fill(BLACK)
+        screen.blit(load_images()[0], background_rect)
         all_sprites.draw(screen)
+        text_draw(screen, str(score), 18, SCREEN_WIDTH // 2, 10)
         # *after* drawing everything, flip the display
         pg.display.flip()
+        clock.tick(FPS)
 
     pg.quit()
 

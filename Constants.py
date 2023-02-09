@@ -1,11 +1,20 @@
+from os import path
+import pygame as pg
+
+# Дерриктория с изображениями спрайтов
+IMG_DIR = path.join(path.dirname(__file__), 'img')
+
 # Задаем константами размеры  экрана
 SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 700
 
-#Частота обновления кадров
-FPS = 30
+# Частота обновления кадров
+FPS = 60
 
-#Цвета
+# Шрифт
+FONT_NAME = pg.font.match_font('arial')
+
+# Цвета
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
