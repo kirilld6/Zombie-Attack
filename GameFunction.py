@@ -1,4 +1,3 @@
-import pygame as pg
 from Constants import *
 
 
@@ -9,6 +8,11 @@ def load_images():
     zombie_skin = pg.image.load(path.join(IMG_DIR, 'zombie.png')).convert()
     bullet_skin = pg.image.load(path.join(IMG_DIR, 'bullet.png')).convert()
     return background, player_skin, zombie_skin, bullet_skin
+
+
+def load_game_sound():
+    shoot_sound = pg.mixer.Sound(path.join(SND_DIR, 'shoot_snd.wav'))
+    return shoot_sound
 
 
 # Функция рисования текста на экране

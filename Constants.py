@@ -3,6 +3,8 @@ import pygame as pg
 
 # Дерриктория с изображениями спрайтов
 IMG_DIR = path.join(path.dirname(__file__), 'img')
+# Дерриктория со звуком
+SND_DIR = path.join(path.dirname(__file__), 'sound')
 
 # Задаем константами размеры  экрана
 SCREEN_WIDTH = 480

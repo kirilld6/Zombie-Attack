@@ -1,5 +1,4 @@
 # Создаем класс игрока на основе pygame.sprite.Sprite
-import pygame as pg
 from random import randrange
 from Constants import *
 from GameFunction import load_images

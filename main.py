@@ -1,10 +1,6 @@
 from random import randrange
-
-from GameFunction import load_images, text_draw
-
-import pygame as pg
+from GameFunction import load_images, text_draw, load_game_sound
 from Constants import *
-
 from GameClasses import Player, Zombie
 
 
@@ -44,9 +40,10 @@ def main():
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     bullet = player.player_shooter()
-
                     all_sprites.add(bullet)
                     bullets.add(bullet)
+                    load_game_sound().play()
+
 
         # Обновляем группу со спрайтами спрайты
         all_sprites.update()
