@@ -122,5 +122,22 @@ class Killing(pg.sprite.Sprite):
             self.rect.center = center
 
 
+class Power(pg.sprite.Sprite):
+    def __init__(self, center):
+        super().__init__()
+        self.type_pow = ['shield', 'gun']
+        self.image = pg.transform.scale(load_images()[3], (5, 8))
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.speed_y = -10
+
+    def update(self):
+        self.rect.y += self.speed_y
+        # Удаляем пулю если она улетела за пределы экрана
+        if self.rect.bottom < 0:
+            self.kill()
+
+
 
 
