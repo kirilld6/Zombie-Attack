@@ -1,7 +1,7 @@
-from random import randrange, choice
+from random import randrange, choice, random
 from GameFunction import load_images, text_draw, load_game_sound, load_background_music, health_draw, lives_draw
 from Constants import *
-from GameClasses import Player, Zombie, Killing
+from GameClasses import Player, Zombie, Killing, Power
 
 
 def main():
@@ -14,10 +14,14 @@ def main():
     # Загрузка игровой графики
     background = pg.image.load(path.join(IMG_DIR, 'BG.png')).convert()
     background_rect = background.get_rect()
-
+    # Группы спрайтов
     all_sprites = pg.sprite.Group()
     zombies = pg.sprite.Group()
     bullets = pg.sprite.Group()
+    power_up = pg.sprite.Group()
+
+
+    #Создаем экземпляр класса игрока
     player = Player()
     all_sprites.add(player)
 
@@ -72,6 +76,17 @@ def main():
 
             if player.health == 0 and kill.alive():
                 running = False
+        #Проверяем столкновение Игрока и "модификаторов"
+        gains_type = pg.sprite.spritecollide(player, power_up, True)
+        for gain in gains_type:
+            if gain.type_pow == 'health':
+                player.health += randrange(10, 15)
+                if player.health >= 100:
+                    player.health = 100
+
+            if gain.type_pow == 'gun':
+                pass
+
 
         # проверяем на столкновения сняряда и зомби
         collisions = pg.sprite.groupcollide(zombies, bullets, True, True)
@@ -80,6 +95,12 @@ def main():
             choice(load_game_sound()[1]).play()
             kill = Killing(collision.rect.center)
             all_sprites.add(kill)
+            # генерируем выпадение "усилений"
+            if random() > 0.8:
+                powerup = Power(collision.rect.center)
+                all_sprites.add(powerup)
+                power_up.add(powerup)
+
             create_zombie()
 
         # Отрисовка объектов на экране

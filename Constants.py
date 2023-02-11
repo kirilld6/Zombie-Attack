@@ -26,3 +26,4 @@ YELLOW = (255, 255, 0)
 # Размер полосы жизней
 HEALTH_LENGHT = 100
 HEALTH_WIDTH = 10
+

@@ -1,5 +1,5 @@
 # Создаем класс игрока на основе pygame.sprite.Sprite
-from random import randrange, choice
+from random import randrange, choice, random
 from Constants import *
 from GameFunction import load_images
 
@@ -125,19 +125,13 @@ class Killing(pg.sprite.Sprite):
 class Power(pg.sprite.Sprite):
     def __init__(self, center):
         super().__init__()
-        self.type_pow = ['shield', 'gun']
-        self.image = pg.transform.scale(load_images()[3], (5, 8))
-        self.image.set_colorkey(BLACK)
+        self.type_pow = choice(['health', 'gun'])
+        self.image = pg.transform.scale(load_images()[6][self.type_pow], (25, 25))
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.center = center
-        self.speed_y = -10
+        # self.speed_y = -10
 
-    def update(self):
-        self.rect.y += self.speed_y
-        # Удаляем пулю если она улетела за пределы экрана
-        if self.rect.bottom < 0:
-            self.kill()
-
-
-
-
+    # def update(self):
+    #     if random() > 0.9:
+    #         self.kill()

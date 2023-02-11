@@ -17,7 +17,12 @@ def load_images():
         img = pg.image.load(path.join(IMG_DIR, blood)).convert()
         img.set_colorkey(WHITE)
         blood_animation.append(img)
-    return 0, player_skin, zombie_skins, bullet_skin, blood_animation, health_player
+
+    power_up_images = dict()
+    power_up_images['health'] = pg.image.load(path.join(IMG_DIR, 'hearth.png')).convert()
+    power_up_images['gun'] = pg.image.load(path.join(IMG_DIR, 'gun.png')).convert()
+
+    return 0, player_skin, zombie_skins, bullet_skin, blood_animation, health_player, power_up_images
 
 
 def load_game_sound():
