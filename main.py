@@ -20,8 +20,7 @@ def main():
     bullets = pg.sprite.Group()
     power_up = pg.sprite.Group()
 
-
-    #Создаем экземпляр класса игрока
+    # Создаем экземпляр класса игрока
     player = Player()
     all_sprites.add(player)
 
@@ -76,7 +75,7 @@ def main():
 
             if player.health == 0 and kill.alive():
                 running = False
-        #Проверяем столкновение Игрока и "модификаторов"
+        # Проверяем столкновение Игрока и "модификаторов"
         gains_type = pg.sprite.spritecollide(player, power_up, True)
         for gain in gains_type:
             if gain.type_pow == 'health':
@@ -86,7 +85,6 @@ def main():
 
             if gain.type_pow == 'gun':
                 pass
-
 
         # проверяем на столкновения сняряда и зомби
         collisions = pg.sprite.groupcollide(zombies, bullets, True, True)
