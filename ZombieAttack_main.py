@@ -3,6 +3,7 @@ from GameFunction import *
 from Constants import *
 from GameClasses import Player, Zombie, Killing, Power
 
+
 # Главный игровой цикл
 def main():
     # функция создания зомби,
@@ -111,7 +112,7 @@ def main():
         # проверяем на столкновения сняряда и зомби
         collisions = pg.sprite.groupcollide(zombies, bullets, True, True)
         for collision in collisions:
-            score += randrange(1, 4)
+            score += collision.damage // 10
             choice(load_kill_zombie_snd()).play()
             kill = Killing(collision.rect.center)
             all_sprites.add(kill)
