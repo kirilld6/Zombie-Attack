@@ -49,7 +49,7 @@ def main():
             all_sprites.add(player)
 
             # Создаем зомби
-            for _ in range(randrange(30, 60)):
+            for _ in range(randrange(40, 60)):
                 create_zombie()
             # Обнуляем счетчик очков
             score = 0
@@ -100,7 +100,7 @@ def main():
             all_sprites.add(player)
 
             # Создаем зомби
-            for _ in range(randrange(30, 60)):
+            for _ in range(randrange(40, 60)):
                 create_zombie()
             # Обнуляем счетчик очков
             score = 0

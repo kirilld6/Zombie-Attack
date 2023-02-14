@@ -94,17 +94,17 @@ class Zombie(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
         self.rect.y = randrange(-120, -60)
-        self.speedy = randrange(2, 4)
+        self.speedy = randrange(1, 3)
         self.damage = randrange(20, 35)
 
     def update(self):
         self.rect.y += self.speedy
         # При достижении нижней части экрана перемещаем зомби обратно на верх в новую координату x,y
-        # и задаем новое значение скорости движения
+        # и задаем новое значение скорости движения, ускоряя зомби на целую часть его урона
         if self.rect.top > SCREEN_HEIGHT + 10:
             self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
             self.rect.y = randrange(-100, -40)
-            self.speedy = randrange(2, 4) * self.damage // 10
+            self.speedy = randrange(1, 3) * self.damage // 10
 
 
 # Класс пули на основе класса Sprite библиотеки pygame
