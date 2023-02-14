@@ -2,8 +2,6 @@ from random import randrange, choice, random
 from GameFunction import *
 from Constants import *
 from GameClasses import Player, Zombie, Killing, Power
-import pickle
-
 
 # Главный игровой цикл
 def main():
