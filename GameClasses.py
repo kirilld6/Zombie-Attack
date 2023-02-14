@@ -1,14 +1,12 @@
 from random import randrange, choice
-from Constants import *
-from GameFunction import load_images
-
+from GameFunction import *
 
 # Класс игрока на основе класса Sprite библиотеки pygame
 class Player(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # Задаем изображение игрока
-        self.image = pg.transform.scale(load_images()[1], (48, 48))
+        self.image = pg.transform.scale(load_player_skin(), (48, 48))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         # Начальная позиция игрока на экране
@@ -32,14 +30,14 @@ class Player(pg.sprite.Sprite):
         if self.power_gun >= 2 and pg.time.get_ticks() - self.power_time > POWER_UP_TIME:
             self.power_gun -= 1
             self.power_time = pg.time.get_ticks()
-            self.image = pg.transform.scale(load_images()[1], (48, 48))
+            self.image = pg.transform.scale(load_player_skin_powerup(), (48, 48))
 
         # Задержка перед появлением после гибели игрока
         if self.hidden_player and pg.time.get_ticks() - self.time_hidden > 1000:
             self.hidden_player = False
             self.rect.centerx = SCREEN_WIDTH / 2
             self.rect.bottom = SCREEN_HEIGHT - 10
-            self.image = pg.transform.scale(load_images()[1], (48, 48))
+            self.image = pg.transform.scale(load_player_skin(), (48, 48))
 
         self.speed_x = 0
         self.speed_y = 0
@@ -67,7 +65,7 @@ class Player(pg.sprite.Sprite):
         # Увеличиваем мощьность игрока и устанавливаем время начала действи я усиления
         self.power_gun += 1
         self.power_time = pg.time.get_ticks()
-        self.image = pg.transform.scale(load_images()[7], (48, 48))
+        self.image = pg.transform.scale(load_powerup_img(), (48, 48))
         self.image.set_colorkey(WHITE)
 
     def player_shooter(self):
@@ -81,14 +79,14 @@ class Player(pg.sprite.Sprite):
     def hide_player(self):
         self.hidden_player = True
         self.time_hidden = pg.time.get_ticks()
-        self.image = pg.transform.scale(load_images()[1], (0, 0))
+        self.image = pg.transform.scale(load_player_skin(), (0, 0))
 
 
 # Класс врага, в нашем случае зомби на основе класса Sprite библиотеки pygame
 class Zombie(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.transform.scale(choice(load_images()[2]), (32, 32))
+        self.image = pg.transform.scale(choice(load_zombie_skin()), (32, 32))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
@@ -111,7 +109,7 @@ class Zombie(pg.sprite.Sprite):
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pg.transform.scale(load_images()[3], (5, 8))
+        self.image = pg.transform.scale(load_bullet_skin(), (5, 8))
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
@@ -128,7 +126,7 @@ class Bullet(pg.sprite.Sprite):
 class BulletFire(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pg.transform.scale(load_images()[8], (10, 18))
+        self.image = pg.transform.scale(load_glok_fire_images(), (10, 18))
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
@@ -145,7 +143,7 @@ class Killing(pg.sprite.Sprite):
 
     def __init__(self, center):
         super().__init__()
-        self.image = load_images()[4][0]
+        self.image = load_blood_animation()[0]
         self.rect = self.image.get_rect()
         self.rect.center = center
         self.frame = 0
@@ -157,11 +155,11 @@ class Killing(pg.sprite.Sprite):
         if now - self.last_update > self.frame_rate:
             self.last_update = now
             self.frame += 1
-            if self.frame == len(load_images()[4]):
+            if self.frame == len(load_blood_animation()):
                 self.kill()
             else:
                 center = self.rect.center
-                self.image = load_images()[4][self.frame]
+                self.image = load_blood_animation()[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
@@ -170,7 +168,7 @@ class Power(pg.sprite.Sprite):
     def __init__(self, center):
         super().__init__()
         self.type_pow = choice(['health', 'gun'])
-        self.image = pg.transform.scale(load_images()[6][self.type_pow], (25, 25))
+        self.image = pg.transform.scale(load_powerup_img()[self.type_pow], (25, 25))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.center = center
