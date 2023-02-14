@@ -18,16 +18,19 @@ def main():
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption("Zombie Attack")
 
-    # Фоновая музыка
+    # Загрузка фоновой музыки
     load_background_music()
 
     # Загрузка фона основного экрана
     main_bg()
 
-    # Основной игровой цикл
+    # Игровые флаги
+
     start_game = True
     game_over = False
     running = True
+
+    # Основной игровой цикл
     while running:
 
         # Показать начальный экран игры
@@ -51,8 +54,9 @@ def main():
             # Обнуляем счетчик очков
             score = 0
 
-        # Частота обновления цикла
+        # Частота обновления основного игрового цикла
         CLOCK.tick(FPS)
+
         # Обработка событий
         for event in pg.event.get():
             # check for closing window
@@ -152,12 +156,13 @@ def main():
             game_over = True
 
         # Отрисовка объектов на экране
-        screen.fill(BLACK)
+        screen.fill(BLACK)  # технический цвет фона экрана
         screen.blit(main_bg()[0], main_bg()[1])
         all_sprites.draw(screen)
         text_draw(screen, str(score), 18, SCREEN_WIDTH // 2, 10)
         health_draw(screen, 5, 5, player.health)
         lives_draw(screen, SCREEN_WIDTH - 100, 5, player.lives, load_health_img())
+
         # Переворачиваем дисплей для корректного отображения объектов на экране
         pg.display.flip()
         CLOCK.tick(FPS)

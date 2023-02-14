@@ -1,6 +1,7 @@
 from random import randrange, choice
 from GameFunction import *
 
+
 # Класс игрока на основе класса Sprite библиотеки pygame
 class Player(pg.sprite.Sprite):
     def __init__(self):
@@ -105,7 +106,7 @@ class Zombie(pg.sprite.Sprite):
             self.speedy = randrange(1, 3)
 
 
-# Класс пули
+# Класс пули на основе класса Sprite библиотеки pygame
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -123,6 +124,7 @@ class Bullet(pg.sprite.Sprite):
             self.kill()
 
 
+# Класс изображения выстрела на основе класса Sprite библиотеки pygame
 class BulletFire(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -138,7 +140,7 @@ class BulletFire(pg.sprite.Sprite):
             self.kill()
 
 
-# Класс анимации убийтсва
+# Класс анимации убийтсва на основе класса Sprite библиотеки pygame
 class Killing(pg.sprite.Sprite):
 
     def __init__(self, center):
@@ -164,6 +166,7 @@ class Killing(pg.sprite.Sprite):
                 self.rect.center = center
 
 
+# Класс усилений и аптечки на основе класса Sprite библиотеки pygame
 class Power(pg.sprite.Sprite):
     def __init__(self, center):
         super().__init__()
