@@ -81,8 +81,8 @@ class Player(pg.sprite.Sprite):
         self.hidden_player = True
         self.time_hidden = pg.time.get_ticks()
         self.image = pg.transform.scale(load_player_skin(), (0, 0))
-        self.speed_x = 0
-        self.speed_y = 0
+        self.speed_x = -8
+        self.speed_y = 8
 
 
 # Класс врага, в нашем случае зомби на основе класса Sprite библиотеки pygame
@@ -104,7 +104,7 @@ class Zombie(pg.sprite.Sprite):
         if self.rect.top > SCREEN_HEIGHT + 10:
             self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
             self.rect.y = randrange(-100, -40)
-            self.speedy = randrange(3, 5) * self.damage // 10
+            self.speedy = randrange(2, 4) * self.damage // 10
 
 
 # Класс пули на основе класса Sprite библиотеки pygame

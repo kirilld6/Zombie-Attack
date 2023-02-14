@@ -18,6 +18,7 @@ def main():
     pg.mixer.init()
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption("Zombie Attack")
+    pg.display.set_icon(pg.image.load(path.join(IMG_DIR, 'favicon.png')))
 
     # Загрузка фоновой музыки
     load_background_music()
@@ -50,7 +51,7 @@ def main():
             all_sprites.add(player)
 
             # Создаем зомби
-            for _ in range(randrange(3, 9)):
+            for _ in range(randrange(30, 60)):
                 create_zombie()
             # Обнуляем счетчик очков
             score = 0
@@ -85,13 +86,10 @@ def main():
                         bullets.add(bullet_2)
                         load_shoot_mgn_snd().play()
 
-
         # Если игрок проиграл, показать экран проигрыша
         if game_over:
             game_over_screen(screen, score)
             game_over = False
-
-
 
             # Группы спрайтов
             all_sprites = pg.sprite.Group()
@@ -104,7 +102,7 @@ def main():
             all_sprites.add(player)
 
             # Создаем зомби
-            for _ in range(randrange(50, 100)):
+            for _ in range(randrange(30, 60)):
                 create_zombie()
             # Обнуляем счетчик очков
             score = 0
@@ -158,7 +156,7 @@ def main():
 
         # Проверяем жив ли игрок и есть ли у него жизни
         if player.lives == -1 and not death_player.alive():
-            #запись в файл результата игры
+            # запись в файл результата игры
             with open(f'{DATA_DIR}/score.txt', 'a', encoding='windows-1251') as file:
                 file.write(f'Пользователь набрал {score} очков за {pg.time.get_ticks() // 1000} секунд \n')
             game_over = True
