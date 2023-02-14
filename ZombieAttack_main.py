@@ -2,6 +2,7 @@ from random import randrange, choice, random
 from GameFunction import *
 from Constants import *
 from GameClasses import Player, Zombie, Killing, Power
+import pickle
 
 
 # Главный игровой цикл
@@ -55,7 +56,7 @@ def main():
             score = 0
 
         # Частота обновления основного игрового цикла
-        CLOCK.tick(FPS)
+        CLOCK.tick(FPS) / 1000.0
 
         # Обработка событий
         for event in pg.event.get():
@@ -84,10 +85,13 @@ def main():
                         bullets.add(bullet_2)
                         load_shoot_mgn_snd().play()
 
+
         # Если игрок проиграл, показать экран проигрыша
         if game_over:
             game_over_screen(screen, score)
             game_over = False
+
+
 
             # Группы спрайтов
             all_sprites = pg.sprite.Group()
@@ -100,7 +104,7 @@ def main():
             all_sprites.add(player)
 
             # Создаем зомби
-            for _ in range(randrange(3, 9)):
+            for _ in range(randrange(50, 100)):
                 create_zombie()
             # Обнуляем счетчик очков
             score = 0
@@ -126,6 +130,7 @@ def main():
         collisions = pg.sprite.spritecollide(player, zombies, True)
         for collision in collisions:
             player.health -= collision.damage
+            collision_snd().play()
             kill_zombie = Killing(collision.rect.center)
             all_sprites.add(kill_zombie)
             create_zombie()
@@ -149,17 +154,20 @@ def main():
 
             if gain.type_pow == 'gun':
                 player.power_up_gun()
-                load_shoot_mgn_snd().play()
+                powerup_gun_snd().play()
 
-            # Проверяем жив ли игрок и есть ли у него жизни
+        # Проверяем жив ли игрок и есть ли у него жизни
         if player.lives == -1 and not death_player.alive():
+            #запись в файл результата игры
+            with open(f'{DATA_DIR}/score.txt', 'a', encoding='windows-1251') as file:
+                file.write(f'Пользователь набрал {score} очков за {pg.time.get_ticks() // 1000} секунд \n')
             game_over = True
 
         # Отрисовка объектов на экране
         screen.fill(BLACK)  # технический цвет фона экрана
         screen.blit(main_bg()[0], main_bg()[1])
         all_sprites.draw(screen)
-        text_draw(screen, str(score), 18, SCREEN_WIDTH // 2, 10)
+        text_draw(screen, f'{score}', 18, SCREEN_WIDTH // 2, 10)
         health_draw(screen, 5, 5, player.health)
         lives_draw(screen, SCREEN_WIDTH - 100, 5, player.lives, load_health_img())
 

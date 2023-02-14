@@ -31,7 +31,7 @@ class Player(pg.sprite.Sprite):
         if self.power_gun >= 2 and pg.time.get_ticks() - self.power_time > POWER_UP_TIME:
             self.power_gun -= 1
             self.power_time = pg.time.get_ticks()
-            self.image = pg.transform.scale(load_player_skin_powerup(), (48, 48))
+            self.image = pg.transform.scale(load_player_skin(), (48, 48))
 
         # Задержка перед появлением после гибели игрока
         if self.hidden_player and pg.time.get_ticks() - self.time_hidden > 1000:
@@ -42,13 +42,13 @@ class Player(pg.sprite.Sprite):
 
         self.speed_x = 0
         self.speed_y = 0
-        if pg.key.get_pressed()[pg.K_LEFT] or pg.key.get_pressed()[pg.K_a]:
+        if pg.key.get_pressed()[pg.K_LEFT]:  # or pg.key.get_pressed()[pg.K_a]
             self.speed_x = -8
-        if pg.key.get_pressed()[pg.K_RIGHT] or pg.key.get_pressed()[pg.K_d]:
+        if pg.key.get_pressed()[pg.K_RIGHT]:  # or pg.key.get_pressed()[pg.K_d]
             self.speed_x = 8
-        if pg.key.get_pressed()[pg.K_UP] or pg.key.get_pressed()[pg.K_w]:
+        if pg.key.get_pressed()[pg.K_UP]:  # or pg.key.get_pressed()[pg.K_w]
             self.speed_y = -8
-        if pg.key.get_pressed()[pg.K_DOWN] or pg.key.get_pressed()[pg.K_s]:
+        if pg.key.get_pressed()[pg.K_DOWN]:  # or pg.key.get_pressed()[pg.K_s]
             self.speed_y = 8
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
@@ -66,7 +66,7 @@ class Player(pg.sprite.Sprite):
         # Увеличиваем мощьность игрока и устанавливаем время начала действи я усиления
         self.power_gun += 1
         self.power_time = pg.time.get_ticks()
-        self.image = pg.transform.scale(load_powerup_img(), (48, 48))
+        self.image = pg.transform.scale(load_player_skin_powerup(), (48, 48))
         self.image.set_colorkey(WHITE)
 
     def player_shooter(self):
@@ -81,6 +81,8 @@ class Player(pg.sprite.Sprite):
         self.hidden_player = True
         self.time_hidden = pg.time.get_ticks()
         self.image = pg.transform.scale(load_player_skin(), (0, 0))
+        self.speed_x = 0
+        self.speed_y = 0
 
 
 # Класс врага, в нашем случае зомби на основе класса Sprite библиотеки pygame
@@ -92,18 +94,17 @@ class Zombie(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
         self.rect.y = randrange(-120, -60)
-        self.speedy = randrange(1, 3)
-        self.speedx = randrange(1, 3)
-        self.damage = randrange(50, 100)
+        self.speedy = randrange(2, 4)
+        self.damage = randrange(20, 35)
 
     def update(self):
         self.rect.y += self.speedy
-        # При достижении нижней части экрана перемещвем зомби обратно на верх в новую координату x,y
+        # При достижении нижней части экрана перемещаем зомби обратно на верх в новую координату x,y
         # и задаем новое значение скорости движения
         if self.rect.top > SCREEN_HEIGHT + 10:
             self.rect.x = randrange(SCREEN_WIDTH - self.rect.width)
             self.rect.y = randrange(-100, -40)
-            self.speedy = randrange(1, 3)
+            self.speedy = randrange(3, 5) * self.damage // 10
 
 
 # Класс пули на основе класса Sprite библиотеки pygame

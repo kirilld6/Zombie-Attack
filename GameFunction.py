@@ -1,7 +1,6 @@
 import sys
 from Constants import *
 
-
 # «аварийное завершение»
 def terminate():
     pg.quit()
@@ -9,16 +8,19 @@ def terminate():
 
 
 #######################################################################################################################
-# Функции отрисовки начальнго и финального экрана
+# Функции для отрисовки начальнго и финального экрана
 #######################################################################################################################
 # Старторвый экран
 def start_screen_game(surface):
+
     bg_start_game = pg.image.load(path.join(IMG_DIR, 'Start.jpg')).convert()
     bg_start_game = pg.transform.scale(bg_start_game, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_start_game_rect = bg_start_game.get_rect()
     surface.blit(bg_start_game, bg_start_game_rect)
-    text_draw(surface, 'Zombie Attack', 64, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
-    text_draw(surface, "Press SPACE key to begin", 18, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 4)
+    text_draw(surface, 'Zombie Attack', 64, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 6)
+    text_draw(surface, 'Use the arrows on the keyboard to control the Player', 18, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
+    text_draw(surface, 'During the game, press the SPACE bar to start shooting', 18, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5)
+    text_draw(surface, "Press SPACE key to begin", 32, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 3.5)
     pg.display.flip()
     waiting = True
     while waiting:
@@ -33,14 +35,14 @@ def start_screen_game(surface):
 
 # Экран проигрыша
 def game_over_screen(surface, score):
-    bg_game_over = pg.image.load(path.join(IMG_DIR, 'BG_END.jpg')).convert()
-    bg_game_over = pg.transform.scale(bg_game_over , (SCREEN_WIDTH, SCREEN_HEIGHT))
+    bg_game_over = pg.image.load(path.join(IMG_DIR, 'BG_END.png')).convert()
+    bg_game_over = pg.transform.scale(bg_game_over, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_game_over_rect = bg_game_over.get_rect()
     surface.blit(bg_game_over, bg_game_over_rect)
-    text_draw(surface, 'Zombie Attack', 64, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
-    text_draw(surface, "Press ESCAPE  to exit game", 18, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 4)
-    text_draw(surface, "Press SPACE  to new game", 18, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 4.5)
-    text_draw(surface, f"YOU SCORE {score} POINTS", 48, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 5)
+    text_draw(surface, 'Zombie Attack', 64, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 6)
+    text_draw(surface, "Press ESCAPE  to exit game", 20, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 4.5)
+    text_draw(surface, "Press SPACE  to new game", 20, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 5)
+    text_draw(surface, f"YOU SCORE {score} POINTS", 48, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 4)
     pg.display.flip()
     waiting = True
     while waiting:
@@ -156,6 +158,9 @@ def load_kill_zombie_snd():
     for dead_snd in ['zombieDeath1.wav', 'zombieDeath2.wav', 'zombieDeath3.wav', 'zombieDeath4.wav', ]:
         zombie_dead.append(pg.mixer.Sound(path.join(SND_DIR, dead_snd)))
     return zombie_dead
+
+def collision_snd():
+    return pg.mixer.Sound(path.join(SND_DIR, 'collision.wav'))
 
 
 # Загрузка фоновой музыки
